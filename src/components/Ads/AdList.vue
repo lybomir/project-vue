@@ -24,7 +24,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                :to="'/ad/ + ad.id'"
+                :to="'/ad/' + item.id"
                 class="inf"
                 >open</v-btn>
               </v-card-actions>

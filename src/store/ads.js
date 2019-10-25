@@ -27,6 +27,9 @@ export default {
   mutations: {
     createAd (state, payload) {
       state.items.push(payload)
+    },
+    allUser (state, user) {
+      state.items = user
     }
   },
   actions: {
@@ -34,6 +37,12 @@ export default {
       payload.id = 'qweqwe'
       commit('createAd', payload)
     }
+    // async getUser ({ commit }) {
+    //   const res = await fetch('https://jsonplaceholder.typicode.com/photos?_limit=3')
+    //   const user = await res.json()
+    //   commit('allUser', user)
+    //   console.log(user)
+    // }
   },
   getters: {
     items (state) {
@@ -49,9 +58,8 @@ export default {
     },
     adById (state) {
       return adId => {
-        return state.items.find(ad => {
-          return ad.id === adId
-        })
+        console.log(adId)
+        return state.items.find(ad => ad.id === adId)
       }
     }
   }

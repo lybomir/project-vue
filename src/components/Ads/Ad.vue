@@ -4,13 +4,13 @@
       <v-flex xs12>
         <v-card>
           <v-img
-          src="/"
+          :src="ad.imageSrc"
           height="200px"
           ></v-img>
         </v-card>
         <v-card-text>
-          <h1>{{}}</h1>
-          <p>{{ }}</p>
+          <h1>{{ad.title}}</h1>
+          <p>{{ad.description}}</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -24,13 +24,15 @@
 
 <script>
 export default {
-  // props: ['id'],
-  // computed: {
-  //   ad () {
-  //     const id = this.id
-  //     return this.$store.getters.adById(id)
-  //   }
-  // }
+  props: ['id'],
+  computed: {
+    ad () {
+      const id = this.id
+      // console.log(id)
+      return this.$store.getters.adById(id)
+    }
+  }
+
 }
 </script>
 

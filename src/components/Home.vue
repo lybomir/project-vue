@@ -80,6 +80,9 @@ export default {
       return this.$store.getters.items
     }
     // ...mapGetters(['promoAds', 'items'])
+  },
+  async mounted () {
+    this.$store.dispatch('getUser')
   }
 
 }
