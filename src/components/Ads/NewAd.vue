@@ -29,17 +29,24 @@
          <v-layout row>
            <v-flex xs12>
              <v-btn
+                @click="triggerUpload"
                 color="blue-grey"
                 class="ma-2 white--text"
              >
                 Upload
                 <v-icon right dark>mdi-cloud-upload</v-icon>
              </v-btn>
+             <input
+             @change="onFileChange"
+             type="file"
+             ref="fileInput"
+             style="display: none;"
+             accept="image/*">
            </v-flex>
          </v-layout>
          <v-layout row>
            <v-flex xs12>
-             <img src="" height="150px">
+             <img :src="imageSrc" height="150px" v-if="imageSrc">
            </v-flex>
          </v-layout>
          <v-layout row>
@@ -54,7 +61,8 @@
            <v-flex xs12>
              <v-spacer></v-spacer>
              <v-btn
-             :disabled="!valid"
+             :loading="loading"
+             :disabled="!valid || loading"
               class="success"
               @click="createAd"
               >
@@ -73,20 +81,41 @@ export default {
       title: '',
       description: '',
       promo: false,
-      valid: false
+      valid: false,
+      image: null,
+      imageSrc: ''
+    }
+  },
+  computed: {
+    loading () {
+      return this.$store.getters.loading
     }
   },
   methods: {
     createAd () {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.image) {
         const ad = {
           title: this.title,
           description: this.description,
           promo: this.promo,
-          imageSrc: 'https://vuejs.org/images/logo.png'
+          image: this.image
         }
-        this.$store.dispatch('createAd', ad)
+        this.$store.dispatch('createAd', ad).then(() => {
+          this.$router.push('/list').catch(() => {})
+        })
       }
+    },
+    triggerUpload () {
+      this.$refs.fileInput.click()
+    },
+    onFileChange (event) {
+      const file = event.target.files[0]
+      const reader = new FileReader()
+      reader.onload = e => {
+        this.imageSrc = reader.result
+      }
+      reader.readAsDataURL(file)
+      this.image = file
     }
   }
 }

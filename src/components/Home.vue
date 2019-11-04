@@ -1,5 +1,6 @@
 <template>
-  <div>
+<div>
+  <div v-if="!loading">
     <v-container>
     <v-layout row>
       <v-flex xs12>
@@ -67,6 +68,19 @@
     </v-layout>
   </v-container>
   </div>
+  <div v-else>
+    <v-container>
+      <v-layout>
+        <v-progress-circular
+      :size="70"
+      :width="7"
+      color="purple"
+      indeterminate
+    ></v-progress-circular>
+      </v-layout>
+    </v-container>
+  </div>
+</div>
 </template>
 
 <script>
@@ -78,6 +92,9 @@ export default {
     },
     items () {
       return this.$store.getters.items
+    },
+    loading () {
+      return this.$store.getters.loading
     }
     // ...mapGetters(['promoAds', 'items'])
   },
